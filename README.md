@@ -51,7 +51,7 @@ See:
        export BQ_TABLE=[YOUR_BIGQUERY_TABLE_ID]
       
  1. Run `deploy-cloud-function.sh` with parameters:
-    * Required `--function` parameter
+    * Required `--function` parameter: deploy this cloud function name (function must exists inside `index.js`)
     * Optional `--project` parameter: To overrid environment variable `PROJECT_ID`
     * Optional `--bucket` paramter: To overrid environment varible `GCS_BUCKET`)
     * Optional `--runtime` parameter: Node.js runtime (default is nodejs10)
