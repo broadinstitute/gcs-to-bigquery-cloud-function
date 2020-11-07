@@ -10,14 +10,9 @@ See:
 
 **Note:** Following cloud functions are in `index.js`:
 
-```
-loadTestResults
-streamTestResults
-subscribeTestMessage
-```
-* `loadTestResults` is cloud function triggered by new file addition in storage bucket
-* `streamTestResults` is streaming cloud function triggered by new file addition in storage bucket. 
-* `subscribeTestMessage` is pubsub cloud function triggered by new file addition in storage bucket
+* `loadTestResults` **loading** triggered by new file addition in storage bucket
+* `streamTestResults` **streaming** triggered by new file addition in storage bucket. 
+* `subscribeTestMessage` **pubsub** cloud function triggered by new file addition in storage bucket
 
 
 ## Set up
