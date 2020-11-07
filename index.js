@@ -97,11 +97,12 @@ const bqLoad = async (data) => {
   const bqTableOptions = {
     sourceFormat: 'NEWLINE_DELIMITED_JSON',
     WriteDisposition: 'WRITE_APPEND',
-    // CreateDisposition: 'CREATE_IF_NEEDED',
-    // autodetect: true,
-    // schemaUpdateOptions: [
-    //  'ALLOW_FIELD_ADDITION'
-    // ],
+    CreateDisposition: 'CREATE_IF_NEEDED',
+    ignoreUnknownValues: true,
+    autodetect: true,
+    schemaUpdateOptions: [
+      'ALLOW_FIELD_ADDITION'
+    ],
     location: 'US',
   };
 

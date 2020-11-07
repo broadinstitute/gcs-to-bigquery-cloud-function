@@ -35,7 +35,11 @@ See:
     * Create your BigQuery table: `[YOUR_BIGQUERY_TABLE_ID]`
         * Table schema should match your test results JSON format. Your table schema may be unique.
         * An example of schema is in `bq_schema` directory
-    
+
+1. Authenticate with the Google Cloud SDK
+    ```
+    gcloud auth login [YOUR_GOOGLE_CREDENTIAL]
+    ```
 
 [node]: https://nodejs.org/
 [yarn]: https://classic.yarnpkg.com/en/
