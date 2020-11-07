@@ -1,0 +1,11 @@
+.gcloudignore
+.git
+.gitignore
+
+*.sh
+
+node_modules
+db_table_schema
+bq_schema
+
+README.md

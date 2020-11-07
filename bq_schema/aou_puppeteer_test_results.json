@@ -1,0 +1,213 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "numFailedTestSuites",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "numFailedTests",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "numPassedTestSuites",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "numPassedTests",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "numPendingTestSuites",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "numPendingTests",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "numRuntimeErrorTestSuites",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "numTodoTests",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "numTotalTestSuites",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "numTotalTests",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "startTime",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "success",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "wasInterrupted",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "circleBranch",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "circleJob",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "circleBuild",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "circleBuildUrl",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "circleNodeIndex",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "service",
+    "type": "STRING"
+  },
+  {
+    "name": "testResults",
+    "mode": "REPEATED",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "leaks",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "numFailingTests",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "numPassingTests",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "numPendingTests",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "numTodoTests",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "skipped",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "failureMessage",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "testFilePath",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "perfStats",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "end",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "start",
+            "type": "INTEGER"
+          }
+        ]
+      },
+      {
+        "name": "testResults",
+        "mode": "REPEATED",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "REPEATED",
+            "name": "ancestorTitles",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "duration",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "REPEATED",
+            "name": "failureMessages",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "fullName",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "invocations",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "location",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "numPassingAsserts",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "status",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "title",
+            "type": "STRING"
+          }
+        ]
+      }
+    ]
+  }
+]

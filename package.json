@@ -1,0 +1,21 @@
+{
+  "name": "bigquery-load",
+  "version": "0.0.1",
+  "description": "Load JSON file from bucket into BigQuery table",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "BSD",
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "dependencies": {
+    "@google-cloud/bigquery": "^5.3.0",
+    "@google-cloud/pubsub": "^2.6.0",
+    "@google-cloud/storage": "^5.3.0"
+  }
+}
