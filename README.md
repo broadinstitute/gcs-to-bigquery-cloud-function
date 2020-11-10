@@ -8,11 +8,15 @@ See:
 [cloud_nodejs]: https://cloud.google.com/nodejs/
 
 
-**Note:** Following cloud functions are in `index.js`:
+**Note:** 
 
-* `loadTestResults` **loading** triggered by new file addition in storage bucket
-* `streamTestResults` **streaming** triggered by new file addition in storage bucket. 
+Following are the cloud function names in `index.js`:
+
+* `loadJsonToBQTable` **loading** data triggered by new file addition in storage bucket
+* `streamJsonToBQTable` **streaming** data triggered by new file addition in storage bucket. 
 * `subscribeTestMessage` **pubsub** cloud function triggered by new file addition in storage bucket
+
+BigQuery dataset and time-partitioned table must already exists before deploy cloud function.
 
 
 ## Set up
@@ -66,15 +70,15 @@ See:
     
     Example:
     ```
-    ./deploy-cloud-function.sh --function loadTestResults
+    ./deploy-cloud-function.sh --function loadJsonToBQTable
     ```
    
     ```
-    ./deploy-cloud-function.sh --project broad-dsde-qa --bucket integration-test-results --function loadTestResults
+    ./deploy-cloud-function.sh --project broad-dsde-qa --bucket integration-test-results --function loadJsonToBQTable
     ```
 
     ```
-    ./deploy-cloud-function.sh --project broad-dsde-qa --bucket integration-test-results --function loadTestResults --runtime nodejs12
+    ./deploy-cloud-function.sh --project broad-dsde-qa --bucket integration-test-results --function loadJsonToBQTable --runtime nodejs12
     ```
 
     * For a complete list of `[YOUR_NODEJS_RUNTIME]`, see [gcloud runtime reference](https://cloud.google.com/sdk/gcloud/reference/functions/deploy#--runtime).
