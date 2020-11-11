@@ -16,16 +16,15 @@ const storage = new Storage();
  * @param {object} data The event payload.
  * @param {object} context The event metadata.
  */
-exports.streamJsonToBQTable = async (data, context) => {
+exports.streamJsonToTable = async (data, context) => {
   if (!validateJsonFile(data.name)) {
     return;
   }
   console.log(`Start streaming JSON file: ${data.name} from bucket ${data.bucket}, created on ${data.timeCreated}`);
-
   await insertRow(data);
 
   // Uncomment if wish to delete file in bucket
-  // await deleteBucketFile(data.bucket, fileName).catch(err => console.error(err));
+  // await deleteFile(data.bucket, fileName).catch(err => console.error(err));
 };
 
 
@@ -35,16 +34,15 @@ exports.streamJsonToBQTable = async (data, context) => {
  * @param {object} data The event payload.
  * @param {object} context The event metadata.
  */
-exports.loadJsonToBQTable = async (data, context) => {
+exports.loadJsonToTable = async (data, context) => {
   if (!validateJsonFile(data.name)) {
     return;
   }
   console.log(`Start loading JSON file: ${data.name} from bucket ${data.bucket}, created on ${data.timeCreated}`);
-
   await loadRow(data);
 
   // Uncomment if wish to delete file in bucket
-  // await deleteBucketFile(data.bucket, fileName).catch(err => console.error(err));
+  // await deleteFile(data.bucket, fileName).catch(err => console.error(err));
 };
 
 /**
@@ -76,7 +74,7 @@ exports.subscribeTestMessage = async (message, context) => {
   message.ack();
 
   // Uncomment if wish to delete file in bucket
-  // await deleteBucketFile(bucket, file).catch(err => console.error(err));
+  // await deleteFile(bucket, file).catch(err => console.error(err));
 };
 
 
@@ -92,12 +90,6 @@ function validateJsonFile(fileName) {
 
 // Inserts the JSON into BigQuery table.
 async function insertRow(data) {
-  // const [file] = await storage
-  //  .bucket(data.bucket)
-  //  .file(data.name)
-  //  .download();
-  // const jsonString = JSON.parse(file.toString('utf8'));
-
   try {
     // Throw error if table not found. Cannot insert data into table that does'n exists.
     await getTable(DATASET_ID, TABLE_ID);
@@ -120,8 +112,8 @@ async function insertRow(data) {
 }
 
 const loadOptions = {
-  // For full list of table options, see https://cloud.google.com/bigquery/docs/reference/v2/tables#resource
-  // For full list of table load options, see: https://cloud.google.com/bigquery/docs/reference/rest/v2/Job#JobConfigurationLoad
+  // Full list of table options, see https://cloud.google.com/bigquery/docs/reference/v2/tables#resource
+  // Full list of table load options, see: https://cloud.google.com/bigquery/docs/reference/rest/v2/Job#JobConfigurationLoad
   autodetect: true,
   sourceFormat: 'NEWLINE_DELIMITED_JSON',
   WriteDisposition: 'WRITE_APPEND',
@@ -164,11 +156,6 @@ async function loadRow(data) {
   console.log(`Job ${job.id} completed loading ${data.name} from gs://${data.bucket} into BigQuery ${DATASET_ID}.${TABLE_ID}`);
 }
 
-async function deleteBucketFile(bucket, file) {
-  await storage.bucket(bucket).file(file).delete();
-  console.log(`Delete file: ${file}`);
-}
-
 async function createDataset(bigquery, datasetId) {
   const [dataset] = await bigquery.createDataset(datasetId, {location: 'US'});
   console.log(`Dataset ${dataset.id} created.`);
@@ -194,12 +181,21 @@ async function getTable(datasetId, tableId) {
 
 // Returns a JSON string.
 async function readFile(data) {
-  const file = await storage
+  const [file] = await storage
     .bucket(data.bucket)
     .file(data.name)
     .download();
-  return JSON.parse(file[0].toString('utf8'));
+  return JSON.parse(file.toString('utf8'));
 }
+
+async function deleteFile(bucket, file) {
+  await storage
+    .bucket(bucket)
+    .file(file)
+    .delete();
+  console.log(`Deleted file: ${file}`);
+}
+
 
 function getTodayDate() {
   const currentDate = new Date();

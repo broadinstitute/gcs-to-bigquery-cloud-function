@@ -1,4 +1,4 @@
-# Load JSON from Cloud Storage into BigQuery table.
+# Load JSON from Cloud Storage into BigQuery table
 Google cloud functions using the Node.js runtime
 
 See:
@@ -12,11 +12,11 @@ See:
 
 Following are the cloud function names in `index.js`:
 
-* `loadJsonToBQTable` **loading** data triggered by new file addition in storage bucket
-* `streamJsonToBQTable` **streaming** data triggered by new file addition in storage bucket. 
+* `loadJsonToTable` **loading** data triggered by new file addition in storage bucket
+* `streamJsonToTable` **streaming** data triggered by new file addition in storage bucket. 
 * `subscribeTestMessage` **pubsub** cloud function triggered by new file addition in storage bucket
 
-BigQuery dataset and time-partitioned table must already exists before deploy cloud function.
+BigQuery dataset and time-partitioned by `DAY` table must already exists before deploy cloud function.
 
 
 ## Set up
@@ -33,17 +33,19 @@ BigQuery dataset and time-partitioned table must already exists before deploy cl
 
 1. Change cloud function name to avoid overwritting already-deployed cloud function in same Google project
 
-1. In [Google Console][console], select your Google project, do the following:
+## GCS set up
+
+1. Install [Google Cloud SDK](https://cloud.google.com/sdk/docs/install)
+    * Optional update `gcloud` SDK components: 
+        
+        ```gcloud components update```
+
+1. Create following in [Google Console][console] if not exists:
     * Create your GCS bucket: `[YOUR_GCS_BUCKET]`
     * Create your BigQuery dataset: `[YOUR_BIGQUERY_DATASET_ID]`
     * Create your BigQuery table: `[YOUR_BIGQUERY_TABLE_ID]`
-        * Table schema should match your test results JSON format. Your table schema may be unique.
-        * An example of schema is in `bq_schema` directory
-
-1. Authenticate with the Google Cloud SDK
-    ```
-    gcloud auth login [YOUR_GOOGLE_CREDENTIAL]
-    ```
+        * Table schema should match your file JSON format.
+        * An example of schema is in `bq_schema` directory.
 
 [node]: https://nodejs.org/
 [yarn]: https://classic.yarnpkg.com/en/
@@ -70,15 +72,15 @@ BigQuery dataset and time-partitioned table must already exists before deploy cl
     
     Example:
     ```
-    ./deploy-cloud-function.sh --function loadJsonToBQTable
+    ./deploy-cloud-function.sh --function loadJsonToTable
     ```
    
     ```
-    ./deploy-cloud-function.sh --project broad-dsde-qa --bucket integration-test-results --function loadJsonToBQTable
+    ./deploy-cloud-function.sh --project broad-dsde-qa --bucket integration-test-results --function loadJsonToTable
     ```
 
     ```
-    ./deploy-cloud-function.sh --project broad-dsde-qa --bucket integration-test-results --function loadJsonToBQTable --runtime nodejs12
+    ./deploy-cloud-function.sh --project broad-dsde-qa --bucket integration-test-results --function loadJsonToTable --runtime nodejs12
     ```
 
     * For a complete list of `[YOUR_NODEJS_RUNTIME]`, see [gcloud runtime reference](https://cloud.google.com/sdk/gcloud/reference/functions/deploy#--runtime).
@@ -86,4 +88,5 @@ BigQuery dataset and time-partitioned table must already exists before deploy cl
     
 
 ### Links    
-* For a complete list of `[YOUR_TRIGGER_EVENT_TYPE]`, see [storage triggers doc](https://cloud.google.com/functions/docs/calling/storage).
+* [GCS Node.js Client](https://googleapis.dev/nodejs/storage/latest/)
+* [TRIGGER_EVENT_TYPE](https://cloud.google.com/functions/docs/calling/storage)
