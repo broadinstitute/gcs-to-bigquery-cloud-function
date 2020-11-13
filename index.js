@@ -67,7 +67,7 @@ const insertOptions = {
 async function insertRow(data) {
   try {
     // Throw error if table not found.
-    const dataset = await bigquery.dataset(DATASET_ID).get({autoCreate: true});
+    const [dataset] = await bigquery.dataset(DATASET_ID).get({autoCreate: true});
     await dataset.table(TABLE_ID).get();
   } catch (err) {
     console.log(`Get table failed with error: ${err}`);

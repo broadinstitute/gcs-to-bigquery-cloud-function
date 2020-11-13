@@ -31,7 +31,7 @@ Install dependencies:
     yarn install
 
 **Note**:
-Before deploy cloud function, change cloud function name to avoid overwritting already-deployed cloud function in same Google project.
+Before deploy cloud function, change cloud function name to avoid overwriting already-deployed cloud function in same Google project.
 
 ## GCS set up
 
@@ -71,8 +71,8 @@ Table schema should match your JSON objects. An example of schema is in `bq_sche
       
  1. Run `deploy-cloud-function.sh` with parameters:
     * Required `--function` parameter: deploy this cloud function name (function must exists inside `index.js`)
-    * Optional `--project` parameter: To overrid environment variable `PROJECT_ID`
-    * Optional `--bucket` paramter: To overrid environment varible `GCS_BUCKET`)
+    * Optional `--project` parameter: To override environment variable `PROJECT_ID`
+    * Optional `--bucket` paramter: To override environment varible `GCS_BUCKET`)
     * Optional `--runtime` parameter: Node.js runtime (default is nodejs10)
 
     ```
