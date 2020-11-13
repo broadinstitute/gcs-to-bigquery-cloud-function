@@ -61,7 +61,7 @@ echo "BQ_DATASET: ${BQ_DATASET}"
 echo "BQ_TABLE: ${BQ_TABLE}"
 
 gcloud functions deploy ${CLOUD_FUNCTION} \
-  --update-env-vars BQ_DATASET=${BQ_DATASET},BQ_TABLE=${BQ_TABLE} \
+  --update-env-vars BQ_DATASET=${BQ_DATASET},BQ_TABLE=${BQ_TABLE},PROJECT_ID=${PROJECT_ID} \
   --project=${PROJECT_ID} \
   --runtime ${NODEJS_RUNTIME} \
   --trigger-resource ${GCS_BUCKET} \

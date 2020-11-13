@@ -1,52 +1,61 @@
-# Load JSON from Cloud Storage into BigQuery table
-Google cloud functions using the Node.js runtime
+# Streaming data from Cloud Storage into BigQuery using Cloud Function
 
-See:
-
-* [cloud.google.com/nodejs][cloud_nodejs]
-
-[cloud_nodejs]: https://cloud.google.com/nodejs/
+Cloud function in Node.js to stream newline-delimited JSON from Google storage bucket into BigQuery table. 
+Cloud function will be triggered when a new object is created (or an existing object is overwritten) in the bucket.
+Cloud function will read the JSON file, and it will insert the data into the BigQuery table.
+A shell script is used to deploy cloud function.
 
 
 **Note:** 
 
 Following are the cloud function names in `index.js`:
 
-* `loadJsonToTable` **loading** data triggered by new file addition in storage bucket
 * `streamJsonToTable` **streaming** data triggered by new file addition in storage bucket. 
-* `subscribeTestMessage` **pubsub** cloud function triggered by new file addition in storage bucket
 
 BigQuery dataset and time-partitioned by `DAY` table must already exists before deploy cloud function.
 
 
 ## Set up
 
+Prerequisite:
 1. Install [Node.js version 10 or greater][node]
 
 1. Install [Yarn][yarn]
 
-1. Clone this repository
+Clone this repository:
 
-1. Install dependencies:
+    git clone git@github.com:broadinstitute/gcs-to-bigquery-cloud-function.git
 
-       yarn install
+Install dependencies:
 
-1. Change cloud function name to avoid overwritting already-deployed cloud function in same Google project
+    yarn install
+
+**Note**:
+Before deploy cloud function, change cloud function name to avoid overwritting already-deployed cloud function in same Google project.
 
 ## GCS set up
 
-1. Install [Google Cloud SDK](https://cloud.google.com/sdk/docs/install)
-    * Optional update `gcloud` SDK components: 
+Prerequisite:
+* Install [Google Cloud SDK](https://cloud.google.com/sdk/docs/install)
+* Optional update `gcloud` SDK components: 
         
-        ```gcloud components update```
+        gcloud components update
 
-1. Create following in [Google Console][console] if not exists:
-    * Create your GCS bucket: `[YOUR_GCS_BUCKET]`
-    * Create your BigQuery dataset: `[YOUR_BIGQUERY_DATASET_ID]`
-    * Create your BigQuery table: `[YOUR_BIGQUERY_TABLE_ID]`
-        * Table schema should match your file JSON format.
-        * An example of schema is in `bq_schema` directory.
+Use Google [Console][console] or `bq mk` CLI to create if not exists:
 
+    GCS bucket: `[YOUR_GCS_BUCKET]`
+    BigQuery dataset: `[YOUR_BIGQUERY_DATASET_ID]`
+    BigQuery table: `[YOUR_BIGQUERY_TABLE_ID]`
+
+`bq mk` CLI:
+
+    gcloud config set project [YOUR_GOOGLE_PROJECT_ID]
+    bq mk --dataset [YOUR_BIGQUERY_DATASET_ID]
+    bq mk --table [YOUR_BIGQUERY_TABLE_ID] --schema [YOUR_TABLE_SCHEMA] --time_partitioning_type DAY
+
+**Note**:
+Table schema should match your JSON objects. An example of schema is in `bq_schema` directory.
+        
 [node]: https://nodejs.org/
 [yarn]: https://classic.yarnpkg.com/en/
 [console]: https://console.cloud.google.com/projectselector2/home/dashboard?_ga=2.115570191.825733084.1603125786-1984668711.1592421217
@@ -88,5 +97,6 @@ BigQuery dataset and time-partitioned by `DAY` table must already exists before 
     
 
 ### Links    
+* [Cloud Function using Node.js runtime](https://cloud.google.com/nodejs/)
 * [GCS Node.js Client](https://googleapis.dev/nodejs/storage/latest/)
-* [TRIGGER_EVENT_TYPE](https://cloud.google.com/functions/docs/calling/storage)
+* [Bucket TRIGGER_EVENT_TYPE](https://cloud.google.com/functions/docs/calling/storage)
