@@ -2,18 +2,15 @@
 
 Cloud function in Node.js to stream newline-delimited JSON from Google storage bucket into BigQuery table. 
 Cloud function will be triggered when a new object is created (or an existing object is overwritten) in the bucket.
-Cloud function will read the JSON file, and it will insert the data into the BigQuery table.
+Cloud function will read the JSON file, and it will stream the data into the BigQuery table.
 A shell script is used to deploy cloud function.
 
 
 **Note:** 
 
-Following are the cloud function names in `index.js`:
+Following is the cloud function name in `index.js`:
 
-* `streamJsonToTable` **streaming** data triggered by new file addition in storage bucket. 
-
-BigQuery dataset and time-partitioned by `DAY` table must already exists before deploy cloud function.
-
+* `streamJsonToTable` : **streaming** data triggered by new file addition in storage bucket. 
 
 ## Set up
 
@@ -39,22 +36,29 @@ Prerequisite:
 * Install [Google Cloud SDK](https://cloud.google.com/sdk/docs/install)
 * Optional update `gcloud` SDK components: 
         
-        gcloud components update
+    ```
+    gcloud components update
+    ```
 
-Use Google [Console][console] or `bq mk` CLI to create if not exists:
+Manually create GCS bucket:
 
-    GCS bucket: `[YOUR_GCS_BUCKET]`
-    BigQuery dataset: `[YOUR_BIGQUERY_DATASET_ID]`
-    BigQuery table: `[YOUR_BIGQUERY_TABLE_ID]`
+* Using `bq mk` CLI
+   
+```
+gcloud config set project [YOUR_GOOGLE_PROJECT_ID]
+gsutil mb gs://[YOUR_GCS_BUCKET]
+```
+   
+Manually create BigQuery dataset and table (create schema beforehand):
 
-`bq mk` CLI:
-
-    gcloud config set project [YOUR_GOOGLE_PROJECT_ID]
-    bq mk --dataset [YOUR_BIGQUERY_DATASET_ID]
-    bq mk --table [YOUR_BIGQUERY_TABLE_ID] --schema [YOUR_TABLE_SCHEMA] --time_partitioning_type DAY
-
-**Note**:
+```
+bq mk --dataset [YOUR_BIGQUERY_DATASET_ID]
+bq mk --table [YOUR_BIGQUERY_TABLE_ID] --schema [YOUR_TABLE_SCHEMA] --time_partitioning_type DAY
+```
+    
 Table schema should match your JSON objects. An example of schema is in `bq_schema` directory.
+
+**Note**: If BigQuery dataset and table don't exist, cloud function will create them. :smiley:
         
 [node]: https://nodejs.org/
 [yarn]: https://classic.yarnpkg.com/en/
@@ -64,16 +68,18 @@ Table schema should match your JSON objects. An example of schema is in `bq_sche
 
 1. Set following environment variables:
    
-       export PROJECT_ID=[YOUR_GOOGLE_PROJECT_ID]
-       export GCS_BUCKET=[YOUR_GCS_BUCKET]
-       export BQ_DATASET=[YOUR_BIGQUERY_DATASET_ID]
-       export BQ_TABLE=[YOUR_BIGQUERY_TABLE_ID]
+    ```
+    export PROJECT_ID=[YOUR_GOOGLE_PROJECT_ID]
+    export GCS_BUCKET=[YOUR_GCS_BUCKET]
+    export BQ_DATASET=[YOUR_BIGQUERY_DATASET_ID]
+    export BQ_TABLE=[YOUR_BIGQUERY_TABLE_ID]
+    ```
       
  1. Run `deploy-cloud-function.sh` with parameters:
-    * Required `--function` parameter: deploy this cloud function name (function must exists inside `index.js`)
-    * Optional `--project` parameter: To override environment variable `PROJECT_ID`
-    * Optional `--bucket` paramter: To override environment varible `GCS_BUCKET`)
-    * Optional `--runtime` parameter: Node.js runtime (default is nodejs10)
+    * Required parameter `--function`: deploy this cloud function name (function must exists inside `index.js`)
+    * Optional parameter`--project`: To override environment variable `PROJECT_ID`
+    * Optional parameter `--bucket`: To override environment varible `GCS_BUCKET`)
+    * Optional parameter `--runtime`: Node.js runtime (default is nodejs10)
 
     ```
     ./deploy-cloud-function.sh --project [YOUR_PROJECT_ID] --bucket [YOUR_GCS_BUCKET] --function [CLOUD_FUNCTION_NAME] --runtime [YOUR_NODEJS_RUNTIME]
@@ -91,12 +97,10 @@ Table schema should match your JSON objects. An example of schema is in `bq_sche
     ```
     ./deploy-cloud-function.sh --project broad-dsde-qa --bucket integration-test-results --function loadJsonToTable --runtime nodejs12
     ```
-
-    * For a complete list of `[YOUR_NODEJS_RUNTIME]`, see [gcloud runtime reference](https://cloud.google.com/sdk/gcloud/reference/functions/deploy#--runtime).
-
     
 
-### Links    
-* [Cloud Function using Node.js runtime](https://cloud.google.com/nodejs/)
+### Links
+* [Node.js runtime](https://cloud.google.com/sdk/gcloud/reference/functions/deploy#--runtime)    
+* [Cloud function using Node.js runtime](https://cloud.google.com/nodejs/)
 * [GCS Node.js Client](https://googleapis.dev/nodejs/storage/latest/)
 * [Bucket TRIGGER_EVENT_TYPE](https://cloud.google.com/functions/docs/calling/storage)
