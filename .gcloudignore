@@ -1,6 +1,8 @@
 .gcloudignore
 .git
 .gitignore
+.idea
+*.iml
 
 *.sh
 
@@ -9,3 +11,6 @@ db_table_schema
 bq_schema
 
 README.md
+LICENSE.txt
+
+package-lock.json
