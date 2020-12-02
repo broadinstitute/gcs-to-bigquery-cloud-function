@@ -75,13 +75,13 @@ async function insertRow(data) {
     return await loadRow(data);
   }
 
-  const date = getTodayDate();
+  const date = formatTodayDate();
   const js = await readFile(data);
 
   // Append partition decorator to table id. Partition decorator ($YYYYMMDD format) enables inserting data into a time-partitioned table.
-  console.log(`Start streaming JSON file: ${data.name} from bucket ${data.bucket}, created on ${data.timeCreated}`);
+  console.log(`Start streaming file: ${data.name} from bucket ${data.bucket}, created on ${data.timeCreated}`);
 
-  const table = await bigquery.dataset(DATASET_ID).table(`${TABLE_ID}$${date}`);
+  const table = await bigquery.dataset(DATASET_ID).table(`${TABLE_ID}\$${date}`);
   await table.insert(js, insertOptions, function(err, response) {
     console.log(`Insert row err: ${JSON.stringify(err)}`);
   });
@@ -119,10 +119,10 @@ async function deleteFile(bucket, file) {
   console.log(`Deleted file: ${file}`);
 }
 
-function getTodayDate() {
-  const currentDate = new Date();
-  const date = currentDate.getDate();
-  const month = currentDate.getMonth(); // January is 0
-  const year = currentDate.getFullYear();
-  return `${year}${(month + 1)}${date}`;
+function formatTodayDate() {
+  const today = new Date().toISOString().split('-');
+  const year = today[0];
+  const month = today[1];
+  const day = today[2].split('T')[0];
+  return `${year}${(month)}${day}`;
 }

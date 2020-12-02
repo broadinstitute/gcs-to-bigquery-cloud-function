@@ -87,15 +87,15 @@ Table schema should match your JSON objects. An example of schema is in `bq_sche
     
     Example:
     ```
-    ./deploy-cloud-function.sh --function loadJsonToTable
+    ./deploy-cloud-function.sh --function streamJsonToTable
     ```
    
     ```
-    ./deploy-cloud-function.sh --project broad-dsde-qa --bucket integration-test-results --function loadJsonToTable
+    ./deploy-cloud-function.sh --project broad-dsde-qa --bucket integration-test-results --function streamJsonToTable
     ```
 
     ```
-    ./deploy-cloud-function.sh --project broad-dsde-qa --bucket integration-test-results --function loadJsonToTable --runtime nodejs12
+    ./deploy-cloud-function.sh --project broad-dsde-qa --bucket integration-test-results --function streamJsonToTable --runtime nodejs12
     ```
     
 
